@@ -24,7 +24,7 @@
             <div id=global-nav-search>
                 <form method=get action="http://blogs.perl.org/mt/mt-search.fcgi">
                     <input type=hidden name=limit value=20>
-                    <label for=search>Search</label>
+                    <label for=global-search>Search</label>
                     <input id=global-search class=query name=search value="Search blogs.perl.org" onfocus="cleanGlobalSearch();">
                     <input class=submit type=submit value=Go>
                 </form>
@@ -37,11 +37,11 @@
 		<li id=navbar-signin-widget>
 <span id=navbar-signin-widget-content class=widget-content></span>
 </li>
+            </ul>
 <script>
 mtAttachEvent('usersignin', mtUpdateNavbarSignInWidget);
 mtUpdateNavbarSignInWidget();
 </script>
-            </ul>
         </div>
         </div>
         <div id=header class=pkg>
@@ -69,7 +69,7 @@ expect in blog platforms, the site is run by Dave Cross and Aaron Crane, with a 
                     <div id=search-form-aux>
                         <form method=get action="http://blogs.perl.org/mt/mt-search.fcgi">
                             <input type=hidden name=limit value=20>
-                            <label for=search>Search</label>
+                            <label for=local-search>Search</label>
                             <input id=local-search class=query name=search value="">
                             <input class=submit type=submit value=Go>
                         </form>
