@@ -1,0 +1,64 @@
+mode: markdown
+from: http://blogs.perl.org/users/toby_inkster/2012/08/sugar-for-moosextraits.html
+input:
+  Tomorrow morning I'll be needing to get up in the wee small hours of the morning to travel to the <a href="http://act.yapc.eu/mtmh2012/">Moving to Moose Hackathon 2012</a>. In the mean time, here's some sugar for the awesome <a href="https://metacpan.org/module/MooseX::Traits">MooseX::Traits</a>...
+
+      package traits;
+      use MooseX::Role::Parameterized;
+      parameter namespace => (
+          isa     => 'Str',
+          default => '',
+      );
+      role {
+          with 'MooseX::Traits';
+          has '_trait_namespace' => (is => 'ro', default => shift->namespace);
+      };
+      1
+
+  Instead of this:
+
+      package MyProject::MyClass;
+      use Moose;
+      with 'MooseX::Traits';
+      has '+_trait_namespace' => ( default => 'MyProject' );
+
+  You can now just write:
+
+      package MyProject::MyClass;
+      use Moose;
+      with traits => { namespace => 'MyProject' };
+
+  It would be better perhaps if MooseX::Traits and the 'with traits => {}' pattern could be integrated into Moose itself, avoiding the need for a top-level traits.pm module.
+
+output:
+  <p>Tomorrow morning I'll be needing to get up in the wee small hours of the morning to travel to the <a href="http://act.yapc.eu/mtmh2012/">Moving to Moose Hackathon 2012</a>. In the mean time, here's some sugar for the awesome <a href="https://metacpan.org/module/MooseX::Traits">MooseX::Traits</a>...</p>
+
+  <pre><code class=prettyprint>package traits;
+  use MooseX::Role::Parameterized;
+  parameter namespace =&gt; (
+      isa     =&gt; 'Str',
+      default =&gt; '',
+  );
+  role {
+      with 'MooseX::Traits';
+      has '_trait_namespace' =&gt; (is =&gt; 'ro', default =&gt; shift-&gt;namespace);
+  };
+  1
+  </code></pre>
+
+  <p>Instead of this:</p>
+
+  <pre><code class=prettyprint>package MyProject::MyClass;
+  use Moose;
+  with 'MooseX::Traits';
+  has '+_trait_namespace' =&gt; ( default =&gt; 'MyProject' );
+  </code></pre>
+
+  <p>You can now just write:</p>
+
+  <pre><code class=prettyprint>package MyProject::MyClass;
+  use Moose;
+  with traits =&gt; { namespace =&gt; 'MyProject' };
+  </code></pre>
+
+  <p>It would be better perhaps if MooseX::Traits and the 'with traits => {}' pattern could be integrated into Moose itself, avoiding the need for a top-level traits.pm module.</p>

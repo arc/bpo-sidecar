@@ -25,8 +25,9 @@ my %MUNGER = (
                 && $p !~ m{^</?(?:h1|h2|h3|h4|h5|h6|table|ol|dl|ul|menu|dir|p
                                  |pre|center|form|fieldset|select|blockquote
                                  |address|div|hr)}aaixms) {
-                $p =~ s/\r?(?=\n)/<br>/xmsg;
+                $p =~ s/\r?(?=\n(?!\z))/<br>/xmsg;
                 $p = "<p>$p</p>";
+                $p =~ s{\n</p>}{</p>\n};
             }
             $in_pre = 0 if $p =~ m{</pre>};
         }
