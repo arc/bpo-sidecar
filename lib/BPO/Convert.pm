@@ -7,13 +7,14 @@ use Exporter qw<import>;
 our @EXPORT_OK = qw<convert_entry_text>;
 
 use Text::Markdown qw<markdown>;
+use Text::Typography qw<typography>;
 
 my %MUNGER = (
     0                         => sub { $_[0] },
     richtext                  => sub { $_[0] },
     textile_2                 => sub { $_[0] },
     markdown                  => \&my_markdown,
-    markdown_with_smartypants => \&my_markdown,
+    markdown_with_smartypants => sub { typography(my_markdown(shift)) },
     __default__               => sub {
         my ($str) = @_;
         $str //= '';

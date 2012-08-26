@@ -1,0 +1,48 @@
+mode: markdown_with_smartypants
+from: http://blogs.perl.org/users/cyocum/2012/08/ocaml-unicode-and-hashtables.html
+input:
+  So, Ocaml does not support Unicode out of the box.  The "string" type is an 8 bit byte and that's that.  Some find this to be a major failing of the language in general and it is a pain in the ass.  However, there is a unicode library for ocaml [Camomile](http://camomile.sourceforge.net/) which fills the gap.
+
+  In the project that I have been working on, I had to read in a Unicode file into Ocaml and create a "seen" hash.  Just as you would do in perl normally.  However, because Ocaml doesn't support Unicode natively, you cannot use the generic Hashtable type "('a, 'b) t", which stands for an arbitrary type for a key (the first 'a) and an arbitrary type for the value (the second 'b).  The key value types will be filled in by type inference as you use the Hashtable based on what you do with it.  This won't work because the generic Hashtable depends on an equal function that will not conform to the Unicode standard compare.
+
+  All is not lost, however!  This is where one of the most powerful features of Ocaml comes into its own: the functor.  Modules in Ocaml can be parametrized in such a way as the user can redefine a module to meet his/her needs.  For Hashtables one can parametrize the Hash on the key value.  For instance:
+
+      module UTF8Hash = Hashtbl.Make(
+        struct
+          type t = Camomile.UTF8.t
+          let equal a b =
+            if (Camomile.UTF8.compare a b) = 0 then
+              true
+            else
+              false
+           let hash = Hashtbl.hash
+       end
+      )
+
+  Using the Hashtable Make functor, I set the key type to UTF8 then set the equal function to something that makes sense for UTF8 strings.  In the end, I left the hash function itself alone as I thought it would probably do the right thing and I didn't want to get into it so I just defined it as itself.
+
+  Doing this creates a Hashtable type of 'a UTF8Hash.t.  The 'a is now the type of the value as you already know the type of the key for the hash.  In addition, doing this, you can create a hashtable that has an arbitrarily complex key type.  As long as you can write an equals function, you should be fine.
+
+output:
+  <p>So, Ocaml does not support Unicode out of the box.  The &#8220;string&#8221; type is an 8 bit byte and that&#8217;s that.  Some find this to be a major failing of the language in general and it is a pain in the ass.  However, there is a unicode library for ocaml <a href="http://camomile.sourceforge.net/">Camomile</a> which fills the gap.</p>
+
+  <p>In the project that I have been working on, I had to read in a Unicode file into Ocaml and create a &#8220;seen&#8221; hash.  Just as you would do in perl normally.  However, because Ocaml doesn&#8217;t support Unicode natively, you cannot use the generic Hashtable type &#8220;(&#8216;a, &#8216;b) t&#8221;, which stands for an arbitrary type for a key (the first &#8216;a) and an arbitrary type for the value (the second &#8216;b).  The key value types will be filled in by type inference as you use the Hashtable based on what you do with it.  This won&#8217;t work because the generic Hashtable depends on an equal function that will not conform to the Unicode standard compare.</p>
+
+  <p>All is not lost, however!  This is where one of the most powerful features of Ocaml comes into its own: the functor.  Modules in Ocaml can be parametrized in such a way as the user can redefine a module to meet his/her needs.  For Hashtables one can parametrize the Hash on the key value.  For instance:</p>
+
+  <pre><code class=prettyprint>module UTF8Hash = Hashtbl.Make(
+    struct
+      type t = Camomile.UTF8.t
+      let equal a b =
+        if (Camomile.UTF8.compare a b) = 0 then
+          true
+        else
+          false
+       let hash = Hashtbl.hash
+   end
+  )
+  </code></pre>
+
+  <p>Using the Hashtable Make functor, I set the key type to UTF8 then set the equal function to something that makes sense for UTF8 strings.  In the end, I left the hash function itself alone as I thought it would probably do the right thing and I didn&#8217;t want to get into it so I just defined it as itself.</p>
+
+  <p>Doing this creates a Hashtable type of &#8216;a UTF8Hash.t.  The &#8216;a is now the type of the value as you already know the type of the key for the hash.  In addition, doing this, you can create a hashtable that has an arbitrarily complex key type.  As long as you can write an equals function, you should be fine.</p>
