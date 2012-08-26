@@ -5,6 +5,7 @@ use v5.16;
 use rlib;
 
 use BPO::Convert qw<convert_entry_text>;
+use BPO::Format qw<format_timezone>;
 use DBD::mysql;
 use DBI;
 use Encode qw<decode_utf8>;
@@ -82,6 +83,7 @@ sub generate_output {
                date_format(entry_authored_on, '%Y-%m-%dT%T')
                  AS entry_authored_iso8601,
                author_nickname,
+               blog_server_offset,
                blog_site_url,
                fileinfo_url
         FROM mt_entry
@@ -95,6 +97,7 @@ sub generate_output {
     for my $entry (@$entries) {
         $_ = decode_utf8($_)
             for @$entry{qw<entry_text entry_title author_nickname>};
+        $entry->{timezone} = format_timezone($entry->{blog_server_offset});
         $entry->{entry_text}
             = convert_entry_text(@$entry{qw<entry_convert_breaks entry_text>});
     }

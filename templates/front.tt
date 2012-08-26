@@ -6,7 +6,7 @@
       <div class="entry-meta-1 pkg">
         <span class=byline>By <a href="[% e.blog_site_url |html %]" class=profile-link>[% e.author_nickname |html %]</a></span>
         <span class=dateline>on
-          <span class=date title="[% e.entry_authored_iso8601 %]">[%
+          <span class=date title="[% e.entry_authored_iso8601; e.timezone %]">[%
             e.entry_authored_pretty %]</span>
         </span>
       </div>
