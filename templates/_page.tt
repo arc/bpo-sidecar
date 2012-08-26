@@ -6,19 +6,6 @@
     <meta http-equiv="Content-Script-Type" content="text/javascript" />
     <title>blogs.perl.org - blogging the onion</title>
     <meta name="generator" content="Movable Type Pro 4.37" />
-    
-
-    
-    
-        
-        
-        
-        
-        
-        
-        
-        
-        
     <link href="http://blogs.perl.org/styles/reset.css" rel="stylesheet" type="text/css" />
     <link href="http://blogs.perl.org/styles/base.css" rel="stylesheet" type="text/css" />
     <link href="http://blogs.perl.org/mt/mt-static/plugins/GCPrettify/prettify.css" rel="stylesheet" type="text/css" />
@@ -30,10 +17,6 @@
     <script type="text/javascript" src="http://blogs.perl.org/mt.js"></script>
     <script type="text/javascript" src="http://blogs.perl.org/mt/mt-static/plugins/GCPrettify/prettify.js"></script>
     <script type="text/javascript">mtAttachEvent('load', prettyPrint);</script>
-    
-    
-
-
 </head>
 <body class="">
     <div id="container">
@@ -48,7 +31,6 @@
                     <input class="submit" type="submit" value="Go" />
                 </form>
             </div>
-
             <ul id="global-nav-links">
                 <li><a href="/">blogs.perl.org</a></li>
                 <li><a href="http://www.perl.org/">perl.org</a></li>
@@ -66,57 +48,30 @@ mtUpdateNavbarSignInWidget();
             </ul>
         </div>
         </div>
-        
-
-
-        
         <div id="header" class="pkg">
         <div id="header-inner">
             <h1 id="site-title"><a href="http://blogs.perl.org/" accesskey="1">blogs.perl.org</a></h1>
             <div id="site-description">There's more than one way to blog it.</div>
         </div>
         </div>
-        
         <div id="content">
         <div id="content-inner" class="pkg">
             <div id="content-main">
-            
-
-
-
-
-
-
 </div>
-            
             <div id="content-aux">
-            
-                
                 <div class="module-aux pkg" id="module-aux-about-system">
                 <div class="module-inner">
                     <h3>About blogs.perl.org</h3>
                     <p>blogs.perl.org is a common blogging platform for the Perl community.
 Written in Perl and offering the modern features you’ve come to
 expect in blog platforms, the site is run by Dave Cross and Aaron Crane, with a design donated by Six Apart, Ltd.</p>
-                    
                 </div>
                 </div>
-
-
-                
-            
-            
             <div class="module-aux pkg" id="module-aux-search">
                 <div class="module-inner">
-                    
-                    
                     <h3>Search blogs.perl.org</h3>
-                    
-                    
-					
                     <div id="search-form-aux">
                         <form method="get" action="http://blogs.perl.org/mt/mt-search.fcgi">
-                    
                             <input type="hidden" name="limit" value="20" />
                             <label for="search">Search</label>
                             <input id="local-search" class="query" name="search" value="" />
@@ -125,37 +80,21 @@ expect in blog platforms, the site is run by Dave Cross and Aaron Crane, with a 
                     </div>
                 </div>
                 </div>
-                    
-
             </div>
-
-
-
         </div>
         </div>
-
         <div id="footer">
         <div id="footer-inner" class="pkg">
             <ul id="footer-nav">
                 <li class="first"><a href="http://github.com/davorg/blogs.perl.org/issues">Feedback welcome</a></li>
                 <li>Hosted by <a href="http://dave.org.uk">Dave Cross</a> of <a href="http://mag-sol.com/">Magnum Solutions</a> and <a href="http://aaroncrane.co.uk/">Aaron Crane</a> of <a href="http://cutbot.net/">Cutbot</a></li>
             </ul>
-            
             <div class="powered-by"><a href="http://www.movabletype.com/" target="_blank">Powered by Movable Type</a></div>
         </div>
         </div>
-            
         </div>
         </div>
-        
     </div>
     </div>
-
-    
-
 </body>
 </html>
-
-
-
-
