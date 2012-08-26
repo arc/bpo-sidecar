@@ -47,7 +47,7 @@
                     <input id="global-search" class="query" name="search" value="Search blogs.perl.org" onfocus="cleanGlobalSearch();" />
                     <input class="submit" type="submit" value="Go" />
                 </form>
-            </div><!-- #global-nav-search -->
+            </div>
 
             <ul id="global-nav-links">
                 <li><a href="/">blogs.perl.org</a></li>
@@ -63,9 +63,9 @@ mtAttachEvent('usersignin', mtUpdateNavbarSignInWidget);
 mtUpdateNavbarSignInWidget();
 /* ]]> */
 </script>
-            </ul><!-- #global-nav-links -->
-        </div><!-- #global-nav-inner -->
-        </div><!-- #global-nav -->
+            </ul>
+        </div>
+        </div>
         
 
 
@@ -74,8 +74,8 @@ mtUpdateNavbarSignInWidget();
         <div id="header-inner">
             <h1 id="site-title"><a href="http://blogs.perl.org/" accesskey="1">blogs.perl.org</a></h1>
             <div id="site-description">There's more than one way to blog it.</div>
-        </div><!-- #header-inner -->
-        </div><!-- #header -->
+        </div>
+        </div>
         
         <div id="content">
         <div id="content-inner" class="pkg">
@@ -87,7 +87,7 @@ mtUpdateNavbarSignInWidget();
 
 
 
-</div><!-- #content-main -->
+</div>
             
             <div id="content-aux">
             
@@ -100,7 +100,7 @@ Written in Perl and offering the modern features you’ve come to
 expect in blog platforms, the site is run by Dave Cross and Aaron Crane, with a design donated by Six Apart, Ltd.</p>
                     
                 </div>
-                </div><!-- #module-aux-about-author -->
+                </div>
 
 
                 
@@ -122,17 +122,17 @@ expect in blog platforms, the site is run by Dave Cross and Aaron Crane, with a 
                             <input id="local-search" class="query" name="search" value="" />
                             <input class="submit" type="submit" value="Go" />
                         </form>
-                    </div><!-- #search-form-aux -->
+                    </div>
                 </div>
-                </div><!-- #module-aux-search -->
+                </div>
                     
 
-            </div><!-- #content-aux -->
+            </div>
 
 
 
-        </div><!-- #content-inner -->
-        </div><!-- #content -->
+        </div>
+        </div>
 
         <div id="footer">
         <div id="footer-inner" class="pkg">
@@ -142,14 +142,14 @@ expect in blog platforms, the site is run by Dave Cross and Aaron Crane, with a 
             </ul>
             
             <div class="powered-by"><a href="http://www.movabletype.com/" target="_blank">Powered by Movable Type</a></div>
-        </div><!-- #footer-inner -->
-        </div><!-- #footer -->
+        </div>
+        </div>
             
-        </div><!-- #content-inner -->
-        </div><!-- #content -->
+        </div>
+        </div>
         
-    </div><!-- #container-inner -->
-    </div><!-- #container -->
+    </div>
+    </div>
 
     
 
