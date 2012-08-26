@@ -1,0 +1,45 @@
+[% WRAPPER '_page.tt' %]
+<div class=entry-listing>
+  [% FOR e = entries %]
+    <div class=entry id="entry-[% e.entry_id %]">
+      <h2 class=entry-title><a href="http://blogs.perl.org[% e.fileinfo_url %]">[% e.entry_title %]</a></h2>
+      <div class="entry-meta-1 pkg">
+        <span class=byline>By <a href="[% e.blog_site_url |html %]" class=profile-link>[% e.author_nickname |html %]</a></span>
+        <span class=dateline>on
+          <span class=date title="[% e.entry_authored_iso8601 %]">[%
+            e.entry_authored_pretty %]</span>
+        </span>
+      </div>
+      <div class=entry-body>[% e.entry_text %]</div>
+      <div class="entry-meta-2 pkg" style="margin-top:1em">
+        <ul>
+          <li><a href="http://blogs.perl.org[% e.fileinfo_url %]#comments">[%
+            e.entry_comment_count %] comment[% 's' UNLESS e.entry_comment_count == 1
+            %]</a></li>
+        </ul>
+        <div class=more-link>
+          <a href="http://blogs.perl.org[% e.fileinfo_url %]">
+            [%- IF e.has_more_text -%]
+              Continue reading »
+            [%- ELSE -%]
+              Permalink
+            [%- END -%]
+          </a>
+        </div>
+      </div>
+    </div>
+  [% END %]
+</div>
+
+<div class=content-nav>[%
+  IF page == 2 -%]
+    <a href="http://blogs.perl.org/">← Page 1</a>[%
+  ELSIF page >= 2 -%]
+    <a href="http://blogs.perl.org/page/[% page - 1 %]">← Page [% page - 1 %]</a>[%
+  END;
+  ' | ' IF page >= 2 && page < max_page;
+  IF page < max_page -%]
+    <a href="http://blogs.perl.org/page/[% page + 1 %]">Page [% page + 1 %] →</a>[%
+  END -%]
+</div>
+[% END %]

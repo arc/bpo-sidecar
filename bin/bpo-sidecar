@@ -1,0 +1,113 @@
+#! /usr/bin/env perl
+
+use v5.16;
+
+use DBD::mysql;
+use DBI;
+use Encode qw<decode_utf8>;
+use Getopt::Long qw<GetOptions :config gnu_getopt>;
+use Path::Class qw<file>;
+use Template;
+
+my $USAGE = <<'EOF';
+Usage: bpo-sidecar [OPTION]...
+
+Options:
+
+  -c MT_CONFIG
+    Read database configuration details from MT_CONFIG (required)
+  -O OUTPUT_DIR
+    Write files to the OUTPUT_DIR (required)
+
+EOF
+
+my $PER_PAGE = 8;
+
+{
+    my %opt;
+    if (!GetOptions(\%opt, qw<help|? c=s O=s>)) {
+        print STDERR $USAGE;
+        exit 1;
+    }
+
+    if ($opt{help}) {
+        print STDOUT $USAGE;
+        exit 0;
+    }
+
+    short_usage('The -c option is required') if !defined $opt{c};
+    short_usage('The -O option is required') if !defined $opt{O};
+
+    my $db = DBI->connect( find_dbi_args($opt{c}) );
+    generate_output($db, $opt{O});
+}
+
+sub short_usage {
+    my ($message) = @_;
+    print STDERR "$message\nPlease try --help for more information\n";
+    exit 1;
+}
+
+sub find_dbi_args {
+    my ($file) = @_;
+    my %config;
+    for my $line (file($file)->slurp(chomped => 1)) {
+        my ($key, $value) = $line =~ /\A \s*+ (\w++) \s++ (.+) \z/axms or next;
+        $config{$key} = $value;
+    }
+    my $dsn = "DBI:mysql:database=$config{Database}";
+    $dsn .= ";host=$config{DBHost}"
+        if ($config{DBHost} // 'localhost') ne 'localhost';
+    return $dsn, @config{qw<DBUser DBPassword>}, {
+        RaiseError => 1,
+        PrintError => 0,
+    };
+}
+
+sub generate_output {
+    my ($db, $dir) = @_;
+
+    my $entries = $db->selectall_arrayref(qq[
+        SELECT entry_id,
+               entry_text,
+               entry_title,
+               entry_convert_breaks,
+               length(entry_text_more) AS has_more_text,
+               entry_comment_count,
+               date_format(entry_authored_on, '%M %e, %Y %l:%i %p')
+                 AS entry_authored_pretty,
+               date_format(entry_authored_on, '%Y-%m-%dT%T')
+                 AS entry_authored_iso8601,
+               author_nickname,
+               blog_site_url,
+               fileinfo_url
+        FROM mt_entry
+        JOIN mt_author ON author_id = entry_author_id
+        JOIN mt_blog ON blog_id = entry_blog_id
+        JOIN mt_fileinfo ei ON fileinfo_entry_id = entry_id
+        WHERE entry_status = 2
+        ORDER BY entry_authored_on DESC
+    ], { Slice => {} }) // [];
+
+    for my $entry (@$entries) {
+        $_ = decode_utf8($_)
+            for @$entry{qw<entry_text entry_title author_nickname>};
+    }
+
+    my $max_page = int @$entries / $PER_PAGE;
+    $max_page++ if @$entries % $PER_PAGE;
+
+    my $tt = Template->new(
+        ENCODING     => 'utf-8',
+        INCLUDE_PATH => file(__FILE__)->dir->parent->subdir('templates')->stringify,
+    );
+
+    my $page = 0;
+    while (@$entries) {
+        $page++;
+        my @entries = splice @$entries, 0, $PER_PAGE;
+        my %data = (entries => \@entries, page => $page, max_page => $max_page);
+        $tt->process('front.tt', \%data, "$dir/$page.html", binmode => ':utf8')
+            or die $tt->error, "\n";
+    }
+}
