@@ -23,25 +23,32 @@ EOF
 
 my $PER_PAGE = 8;
 
-sub munge_body {
-    my ($str) = @_;
-    $str //= '';
-    my @paras = split /\r?\n\r?\n/, $str;
-    my $in_pre = 0;
-    for my $p (@paras) {
-        $in_pre = 1 if $p =~ m{<pre>};
-        if (!$in_pre
-            && $p !~ m{^</?(?:h1|h2|h3|h4|h5|h6|table|ol|dl|ul|menu|dir|p
-                             |pre|center|form|fieldset|select|blockquote
-                             |address|div|hr)}aaixms) {
-            $p =~ s/\r?(?=\n)/<br>/xmsg;
-            $p = "<p>$p</p>";
+my %MUNGE_BODY = (
+    0                         => sub { $_[0] },
+    richtext                  => sub { $_[0] },
+    textile_2                 => sub { $_[0] },
+    markdown                  => sub { $_[0] },
+    markdown_with_smartypants => sub { $_[0] },
+    __default__               => sub {
+        my ($str) = @_;
+        $str //= '';
+        my @paras = split /\r?\n\r?\n/, $str;
+        my $in_pre = 0;
+        for my $p (@paras) {
+            $in_pre = 1 if $p =~ m{<pre>};
+            if (!$in_pre
+                && $p !~ m{^</?(?:h1|h2|h3|h4|h5|h6|table|ol|dl|ul|menu|dir|p
+                                 |pre|center|form|fieldset|select|blockquote
+                                 |address|div|hr)}aaixms) {
+                $p =~ s/\r?(?=\n)/<br>/xmsg;
+                $p = "<p>$p</p>";
+            }
+            $in_pre = 0 if $p =~ m{</pre>};
         }
-        $in_pre = 0 if $p =~ m{</pre>};
-    }
-    return join("\n\n", @paras)
-        =~ s/<code\s*>/<code class=prettyprint>/axmsgr;
-}
+        return join("\n\n", @paras)
+            =~ s/<code\s*>/<code class=prettyprint>/axmsgr;
+    },
+);
 
 {
     my %opt;
@@ -112,7 +119,9 @@ sub generate_output {
     for my $entry (@$entries) {
         $_ = decode_utf8($_)
             for @$entry{qw<entry_text entry_title author_nickname>};
-        $entry->{entry_text} = munge_body($entry->{entry_text});
+        if (my $munger = $MUNGE_BODY{ $entry->{entry_convert_breaks} }) {
+            $entry->{entry_text} = $munger->($entry->{entry_text});
+        }
     }
 
     my $max_page = int @$entries / $PER_PAGE;
