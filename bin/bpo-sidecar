@@ -2,13 +2,15 @@
 
 use v5.16;
 
+use rlib;
+
+use BPO::Convert qw<convert_entry_text>;
 use DBD::mysql;
 use DBI;
 use Encode qw<decode_utf8>;
 use Getopt::Long qw<GetOptions :config gnu_getopt>;
 use Path::Class qw<file>;
 use Template;
-use Text::Markdown qw<markdown>;
 
 my $USAGE = <<'EOF';
 Usage: bpo-sidecar [OPTION]...
@@ -23,33 +25,6 @@ Options:
 EOF
 
 my $PER_PAGE = 8;
-
-my %MUNGE_BODY = (
-    0                         => sub { $_[0] },
-    richtext                  => sub { $_[0] },
-    textile_2                 => sub { $_[0] },
-    markdown                  => \&my_markdown,
-    markdown_with_smartypants => \&my_markdown,
-    __default__               => sub {
-        my ($str) = @_;
-        $str //= '';
-        my @paras = split /\r?\n\r?\n/, $str;
-        my $in_pre = 0;
-        for my $p (@paras) {
-            $in_pre = 1 if $p =~ m{<pre>};
-            if (!$in_pre
-                && $p !~ m{^</?(?:h1|h2|h3|h4|h5|h6|table|ol|dl|ul|menu|dir|p
-                                 |pre|center|form|fieldset|select|blockquote
-                                 |address|div|hr)}aaixms) {
-                $p =~ s/\r?(?=\n)/<br>/xmsg;
-                $p = "<p>$p</p>";
-            }
-            $in_pre = 0 if $p =~ m{</pre>};
-        }
-        return join("\n\n", @paras)
-            =~ s/<code\s*>/<code class=prettyprint>/axmsgr;
-    },
-);
 
 {
     my %opt;
@@ -74,11 +49,6 @@ sub short_usage {
     my ($message) = @_;
     print STDERR "$message\nPlease try --help for more information\n";
     exit 1;
-}
-
-sub my_markdown {
-    markdown(shift, { empty_element_suffix => '>' })
-        =~ s/<code\s*>/<code class=prettyprint>/axmsgr;
 }
 
 sub find_dbi_args {
@@ -125,9 +95,8 @@ sub generate_output {
     for my $entry (@$entries) {
         $_ = decode_utf8($_)
             for @$entry{qw<entry_text entry_title author_nickname>};
-        if (my $munger = $MUNGE_BODY{ $entry->{entry_convert_breaks} }) {
-            $entry->{entry_text} = $munger->($entry->{entry_text});
-        }
+        $entry->{entry_text}
+            = convert_entry_text(@$entry{qw<entry_convert_breaks entry_text>});
     }
 
     my $max_page = int @$entries / $PER_PAGE;
