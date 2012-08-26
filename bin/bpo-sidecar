@@ -8,6 +8,7 @@ use Encode qw<decode_utf8>;
 use Getopt::Long qw<GetOptions :config gnu_getopt>;
 use Path::Class qw<file>;
 use Template;
+use Text::Markdown qw<markdown>;
 
 my $USAGE = <<'EOF';
 Usage: bpo-sidecar [OPTION]...
@@ -27,8 +28,8 @@ my %MUNGE_BODY = (
     0                         => sub { $_[0] },
     richtext                  => sub { $_[0] },
     textile_2                 => sub { $_[0] },
-    markdown                  => sub { $_[0] },
-    markdown_with_smartypants => sub { $_[0] },
+    markdown                  => \&my_markdown,
+    markdown_with_smartypants => \&my_markdown,
     __default__               => sub {
         my ($str) = @_;
         $str //= '';
@@ -73,6 +74,11 @@ sub short_usage {
     my ($message) = @_;
     print STDERR "$message\nPlease try --help for more information\n";
     exit 1;
+}
+
+sub my_markdown {
+    markdown(shift, { empty_element_suffix => '>' })
+        =~ s/<code\s*>/<code class=prettyprint>/axmsgr;
 }
 
 sub find_dbi_args {
