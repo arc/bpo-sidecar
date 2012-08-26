@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang=en id=sixapart-standard>
-<head>
+  <head>
     <meta charset=utf-8>
     <title>blogs.perl.org - blogging the onion</title>
     <meta name=generator content="Movable Type Pro 4.37">
@@ -9,87 +9,89 @@
     <link href="http://blogs.perl.org/styles/base.css" rel=stylesheet>
     <link href="http://blogs.perl.org/mt/mt-static/plugins/GCPrettify/prettify.css" rel=stylesheet>
     <link rel=alternate type="application/atom+xml" title=Entries href="http://blogs.perl.org/atom.xml">
-
     <link rel=alternate type="application/atom+xml" title=Comments href="http://blogs.perl.org/comments.xml">
-
     <link rel=start href="http://blogs.perl.org/" title=Home>
     <script src="http://blogs.perl.org/mt.js"></script>
     <script src="http://blogs.perl.org/mt/mt-static/plugins/GCPrettify/prettify.js"></script>
     <script>mtAttachEvent('load', prettyPrint);</script>
-</head>
-<body class="">
+  </head>
+  <body>
     <div id=container>
-    <div id=container-inner class=pkg>
+      <div id=container-inner class=pkg>
         <div id=global-nav>
-        <div id=global-nav-inner>
+          <div id=global-nav-inner>
             <div id=global-nav-search>
-                <form method=get action="http://blogs.perl.org/mt/mt-search.fcgi">
-                    <input type=hidden name=limit value=20>
-                    <label for=global-search>Search</label>
-                    <input id=global-search class=query name=search value="Search blogs.perl.org" onfocus="cleanGlobalSearch();">
-                    <input class=submit type=submit value=Go>
-                </form>
+              <form method=get action="http://blogs.perl.org/mt/mt-search.fcgi">
+                <input type=hidden name=limit value=20>
+                <label for=global-search>Search</label>
+                <input id=global-search class=query name=search value="Search blogs.perl.org" onfocus="cleanGlobalSearch();">
+                <input class=submit type=submit value=Go>
+              </form>
             </div>
             <ul id=global-nav-links>
-                <li><a href="/">blogs.perl.org</a></li>
-                <li><a href="http://www.perl.org/">perl.org</a></li>
-                <li><a href="http://perlnews.org/">perlnews.org</a></li>
-                <li><a href="http://www.pm.org/">pm.org</a></li>
-		<li id=navbar-signin-widget>
-<span id=navbar-signin-widget-content class=widget-content></span>
-</li>
+              <li><a href="/">blogs.perl.org</a></li>
+              <li><a href="http://www.perl.org/">perl.org</a></li>
+              <li><a href="http://perlnews.org/">perlnews.org</a></li>
+              <li><a href="http://www.pm.org/">pm.org</a></li>
+              <li id=navbar-signin-widget>
+                <span id=navbar-signin-widget-content class=widget-content></span>
+              </li>
             </ul>
-<script>
-mtAttachEvent('usersignin', mtUpdateNavbarSignInWidget);
-mtUpdateNavbarSignInWidget();
-</script>
-        </div>
+            <script>
+              mtAttachEvent('usersignin', mtUpdateNavbarSignInWidget);
+              mtUpdateNavbarSignInWidget();
+            </script>
+          </div>
         </div>
         <div id=header class=pkg>
-        <div id=header-inner>
+          <div id=header-inner>
             <h1 id=site-title><a href="http://blogs.perl.org/" accesskey=1>blogs.perl.org</a></h1>
             <div id=site-description>There's more than one way to blog it.</div>
-        </div>
+          </div>
         </div>
         <div id=content>
-        <div id=content-inner class=pkg>
-            <div id=content-main>
-</div>
+          <div id=content-inner class=pkg>
+            <div id=content-main>[% content %]</div>
             <div id=content-aux>
-                <div class="module-aux pkg" id=module-aux-about-system>
+              <div class="module-aux pkg" id=module-aux-about-system>
                 <div class=module-inner>
-                    <h3>About blogs.perl.org</h3>
-                    <p>blogs.perl.org is a common blogging platform for the Perl community.
-Written in Perl and offering the modern features you’ve come to
-expect in blog platforms, the site is run by Dave Cross and Aaron Crane, with a design donated by Six Apart, Ltd.</p>
+                  <h3>About blogs.perl.org</h3>
+                  <p>blogs.perl.org is a common blogging platform for the Perl
+                  community.  Written in Perl and offering the modern features
+                  you’ve come to expect in blog platforms, the site is run by
+                  Dave Cross and Aaron Crane, with a design donated by Six
+                  Apart, Ltd.</p>
                 </div>
-                </div>
-            <div class="module-aux pkg" id=module-aux-search>
+              </div>
+              <div class="module-aux pkg" id=module-aux-search>
                 <div class=module-inner>
-                    <h3>Search blogs.perl.org</h3>
-                    <div id=search-form-aux>
-                        <form method=get action="http://blogs.perl.org/mt/mt-search.fcgi">
-                            <input type=hidden name=limit value=20>
-                            <label for=local-search>Search</label>
-                            <input id=local-search class=query name=search value="">
-                            <input class=submit type=submit value=Go>
-                        </form>
-                    </div>
+                  <h3>Search blogs.perl.org</h3>
+                  <div id=search-form-aux>
+                    <form method=get action="http://blogs.perl.org/mt/mt-search.fcgi">
+                      <input type=hidden name=limit value=20>
+                      <label for=local-search>Search</label>
+                      <input id=local-search class=query name=search value="">
+                      <input class=submit type=submit value=Go>
+                    </form>
+                  </div>
                 </div>
-                </div>
+              </div>
             </div>
-        </div>
+          </div>
         </div>
         <div id=footer>
-        <div id=footer-inner class=pkg>
+          <div id=footer-inner class=pkg>
             <ul id=footer-nav>
-                <li class=first><a href="http://github.com/davorg/blogs.perl.org/issues">Feedback welcome</a></li>
-                <li>Hosted by <a href="http://dave.org.uk">Dave Cross</a> of <a href="http://mag-sol.com/">Magnum Solutions</a> and <a href="http://aaroncrane.co.uk/">Aaron Crane</a> of <a href="http://cutbot.net/">Cutbot</a></li>
+              <li class=first><a href="http://github.com/davorg/blogs.perl.org/issues">Feedback welcome</a></li>
+              <li>Hosted by <a href="http://dave.org.uk">Dave Cross</a> of
+              <a href="http://mag-sol.com/">Magnum Solutions</a> and
+              <a href="http://aaroncrane.co.uk/">Aaron Crane</a> of
+              <a href="http://cutbot.net/">Cutbot</a></li>
             </ul>
             <div class=powered-by><a href="http://www.movabletype.com/" target=_blank>Powered by Movable Type</a></div>
+          </div>
         </div>
-        </div>
+      </div>
     </div>
-    </div>
-</body>
+  </body>
 </html>
