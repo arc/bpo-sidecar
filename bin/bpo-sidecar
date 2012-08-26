@@ -8,7 +8,8 @@ use BPO::Convert qw<convert_entry_text>;
 use BPO::Format qw<format_timezone>;
 use DBD::mysql;
 use DBI;
-use Encode qw<decode_utf8>;
+use Encode qw<decode_utf8 encode_utf8>;
+use File::Slurp qw<write_file>;
 use Getopt::Long qw<GetOptions :config gnu_getopt>;
 use Path::Class qw<file>;
 use Template;
@@ -115,12 +116,20 @@ sub generate_output {
         $page++;
         my @entries = splice @$entries, 0, $PER_PAGE;
         my %data = (entries => \@entries, page => $page, max_page => $max_page);
-        $tt->process('front.tt', \%data, "$dir/$page.html", binmode => ':utf8')
+        $tt->process('front.tt', \%data, \(my $html = ''))
             or die $tt->error, "\n";
+        rewrite_if_needed("$dir/$page.html", $html);
     }
 
     # If we have N full pages, and an entry is published then pulled, we'll
     # leave an unused final page lying around.  Simple workaround: try to
     # delete the next 10 pages, but ignore any failures.
     unlink map { "$dir/$_.html" } $page+1 .. $page+10;
+}
+
+sub rewrite_if_needed {
+    my ($file, $text) = @_;
+    my $data = encode_utf8($text);
+    return if -f $file && file($file)->slurp eq $data;
+    write_file($file, { atomic => 1 }, \$data);
 }
