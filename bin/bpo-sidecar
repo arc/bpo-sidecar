@@ -115,4 +115,9 @@ sub generate_output {
         $tt->process('front.tt', \%data, "$dir/$page.html", binmode => ':utf8')
             or die $tt->error, "\n";
     }
+
+    # If we have N full pages, and an entry is published then pulled, we'll
+    # leave an unused final page lying around.  Simple workaround: try to
+    # delete the next 10 pages, but ignore any failures.
+    unlink map { "$dir/$_.html" } $page+1 .. $page+10;
 }
