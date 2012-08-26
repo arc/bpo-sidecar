@@ -7,12 +7,13 @@ use Exporter qw<import>;
 our @EXPORT_OK = qw<convert_entry_text>;
 
 use Text::Markdown qw<markdown>;
+use Text::Textile;
 use Text::Typography qw<typography>;
 
 my %MUNGER = (
     0                         => sub { $_[0] },
     richtext                  => sub { $_[0] },
-    textile_2                 => sub { $_[0] },
+    textile_2                 => \&textile,
     markdown                  => \&my_markdown,
     markdown_with_smartypants => sub { typography(my_markdown(shift)) },
     __default__               => sub {
@@ -40,6 +41,14 @@ my %MUNGER = (
 sub my_markdown {
     markdown(shift, { empty_element_suffix => '>' })
         =~ s/<code\s*>/<code class=prettyprint>/axmsgr;
+}
+
+sub textile {
+    my ($text) = @_;
+    state $textile = Text::Textile->new(flavor => 'html/css');
+    $text =~ s/\n\z//;
+    my $html = $textile->process($text) . "\n";
+    return $html =~ s{&#39;}{'}gr;
 }
 
 sub convert_entry_text {

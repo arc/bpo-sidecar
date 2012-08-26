@@ -1,0 +1,12 @@
+mode: textile_2
+from: http://blogs.perl.org/users/domm/2012/08/which-tag-to-use-for-yapcs.html
+input:
+  discuss "here":http://domm.plix.at/perl/2012_08_25_yapc_tag.html in my blog: 
+  http://domm.plix.at/perl/2012_08_25_yapc_tag.html
+
+  (as Perl Iron Man doesn't let me update my blog URL, I have to crosspost here. sorry for that..)
+output:
+  <p>discuss <a href="http://domm.plix.at/perl/2012_08_25_yapc_tag.html">here</a> in my blog: <br>
+  http://domm.plix.at/perl/2012_08_25_yapc_tag.html</p>
+
+  <p>(as Perl Iron Man doesn't let me update my blog <span class="caps">URL,</span> I have to crosspost here. sorry for that..)</p>
