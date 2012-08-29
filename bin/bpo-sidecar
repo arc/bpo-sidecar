@@ -72,6 +72,17 @@ sub find_dbi_args {
 sub generate_output {
     my ($db, $dir) = @_;
 
+    my %author_blog = map { $_->{author_id} => $_ } map { @$_ }
+        $db->selectall_arrayref(q[
+            SELECT author_id,
+                   blog_id,
+                   blog_site_url
+            FROM mt_author
+            JOIN mt_association ON association_author_id = author_id
+            JOIN mt_blog ON blog_id = association_blog_id
+            WHERE author_nickname = blog_name
+        ], { Slice => {} }) // [];
+
     my $entries = $db->selectall_arrayref(qq[
         SELECT entry_id,
                entry_text,
@@ -83,7 +94,10 @@ sub generate_output {
                  AS entry_authored_pretty,
                date_format(entry_authored_on, '%Y-%m-%dT%T')
                  AS entry_authored_iso8601,
+               author_id,
                author_nickname,
+               blog_id,
+               blog_name,
                blog_server_offset,
                blog_site_url,
                fileinfo_url
@@ -97,10 +111,13 @@ sub generate_output {
 
     for my $entry (@$entries) {
         $_ = decode_utf8($_)
-            for @$entry{qw<entry_text entry_title author_nickname>};
+            for @$entry{qw<entry_text entry_title author_nickname blog_name>};
         $entry->{timezone} = format_timezone($entry->{blog_server_offset});
         $entry->{entry_text}
             = convert_entry_text(@$entry{qw<entry_convert_breaks entry_text>});
+        my $author_blog = $author_blog{ $entry->{author_id} };
+        $entry->{author_blog_url} = decode_utf8($author_blog->{blog_site_url})
+            if $author_blog && $author_blog->{blog_id} != $entry->{blog_id};
     }
 
     my $max_page = int @$entries / $PER_PAGE;

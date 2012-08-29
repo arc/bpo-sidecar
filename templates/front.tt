@@ -4,7 +4,16 @@
     <div class=entry id="entry-[% e.entry_id %]">
       <h2 class=entry-title><a href="http://blogs.perl.org[% e.fileinfo_url %]">[% e.entry_title %]</a></h2>
       <div class="entry-meta-1 pkg">
-        <span class=byline>By <a href="[% e.blog_site_url |html %]" class=profile-link>[% e.author_nickname |html %]</a></span>
+        <span class=byline>By [%
+          IF !e.author_blog_url %]<a href="[%
+            e.blog_site_url |html %]" class=profile-link>[%
+            e.author_nickname |html %]</a>[%
+          ELSE %]<a href="[%
+            e.author_blog_url |html %]" class=profile-link>[%
+            e.author_nickname |html %]</a> in <a href="[%
+            e.blog_site_url |html %]" class=profile-link>[%
+            e.blog_name |html %]</a>[%
+          END %]</span>
         <span class=dateline>on
           <span class=date title="[% e.entry_authored_iso8601; e.timezone %]">[%
             e.entry_authored_pretty %]</span>
