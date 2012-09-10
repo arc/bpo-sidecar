@@ -10,7 +10,7 @@ Development
 
 You can browse the code, raise issues, or submit pull requests on Github:
 
-    https://github.com/arc/bpo-sidecar
+    https://github.com/blogs-perl-org/bpo-sidecar
 
 Found a bug?  Want a new feature, either in this code or on blogs.perl.org
 itself?  Please get in touch!  We’d love to hear your ideas — and if those
