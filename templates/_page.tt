@@ -82,7 +82,7 @@
         <div id=footer>
           <div id=footer-inner class=pkg>
             <ul id=footer-nav>
-              <li class=first><a href="http://github.com/davorg/blogs.perl.org/issues">Feedback welcome</a></li>
+              <li class=first><a href="http://github.com/blogs-perl-org/blogs.perl.org/issues">Feedback welcome</a></li>
               <li>Hosted by <a href="http://dave.org.uk">Dave Cross</a> of
               <a href="http://mag-sol.com/">Magnum Solutions</a> and
               <a href="http://aaroncrane.co.uk/">Aaron Crane</a> of
